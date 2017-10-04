@@ -1,0 +1,6 @@
+CREATE TABLE login_status(
+    id VARCHAR(100) NOT NULL PRIMARY KEY,
+    failed_attempts INT NOT NULL DEFAULT 0,
+    timeout TIMESTAMP NOT NULL DEFAULT now(),
+    in_progress BOOLEAN NOT NULL DEFAULT FALSE
+);

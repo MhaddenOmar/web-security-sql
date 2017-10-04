@@ -1,0 +1,7 @@
+{
+    "user": "omar",
+    "host": "127.0.0.1",
+    "database": "thingy_test",
+    "password": "user",
+    "port": 5432
+}

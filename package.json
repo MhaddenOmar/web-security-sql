@@ -1,0 +1,26 @@
+{
+  "name": "postgres-pluralsight-course",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --sort",
+    "install": "node index.js install",
+    "install-test": "SET NODE_ENV=test&node index.js install",
+    "build":"node index.js build"    
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^2.11.0",
+    "dotenv": "^4.0.0",
+    "glob": "^7.1.2",
+    "lodash": "^4.17.4",
+    "pg": "^7.3.0",
+    "simple-ssh": "^1.0.0"
+  },
+  "devDependencies": {
+    "mocha": "^3.5.3"
+  }
+}
