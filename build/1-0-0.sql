@@ -92,6 +92,18 @@ CREATE TABLE roles(
 
 INSERT INTO roles values(10,'Administrator');
 INSERT INTO roles values(99,'User');
+CREATE TABLE rooms(
+    id BIGINT NOT NULL DEFAULT id_generator() PRIMARY KEY,
+    name VARCHAR(255)
+);
+CREATE TABLE room_resource(
+    room_id  BIGINT NOT NULL PRIMARY KEY,
+    id BIGINT NOT NULL DEFAULT id_generator(),
+    resource_path VARCHAR(255),
+    name VARCHAR(255)
+);    
+    
+    
 CREATE TABLE status(
     id INT PRIMARY KEY NOT NULL,
     name VARCHAR(20),
@@ -117,6 +129,7 @@ CREATE TABLE users(
  validation_token VARCHAR(36),
  last_login TIMESTAMPTZ,
  login_count INT DEFAULT 0 NOT NULL,
+ phone_nr VARCHAR(255),
  status_id INT 
 );
 
@@ -127,6 +140,10 @@ CREATE TABLE users(
 CREATE TABLE user_roles(
     user_id BIGINT NOT NULL,
     role_id INT NOT NULL
+);
+CREATE TABLE user_rooms(
+    user_id BIGINT NOT NULL,
+    room_id BIGINT NOT NULL
 );
 CREATE OR REPLACE FUNCTION authenticate(key VARCHAR,token VARCHAR,_ip VARCHAR DEFAULT '',prov VARCHAR DEFAULT 'local')  
 
@@ -357,6 +374,82 @@ BEGIN
 END;
 $$
 LANGUAGE PLPGSQL;
+CREATE OR REPLACE FUNCTION create_room(_name VARCHAR)
+RETURNS VOID
+
+
+AS $$
+
+BEGIN
+    SET search_path=membership;
+
+    INSERT INTO rooms (name) VALUES (_name);
+
+END;
+$$
+
+
+LANGUAGE PLPGSQL;
+CREATE OR REPLACE FUNCTION create_room_resource(_room_id BIGINT, _resource_path VARCHAR, _resource_name VARCHAR)
+RETURNS VOID
+as $$
+
+BEGIN
+    INSERT INTO membership.room_resource (room_id,resource_path,name) VALUES (_room_id,_resource_path,_resource_name);
+END;
+
+$$
+LANGUAGE PLPGSQL;
+-- CREATE OR REPLACE FUNCTION get_rooms()
+-- RETURNS TABLE(
+--     id BIGINT,
+--     name VARCHAR(255)
+-- )
+-- AS $$    
+
+-- BEGIN
+--     SELECT rooms.id,rooms.name FROM rooms INTO id,name;
+
+--     return query
+--     SELECT id,name;
+-- END;
+-- $$
+-- LANGUAGE PLPGSQL;
+
+
+-- CREATE OR REPLACE FUNCTION get_rooms(_id BIGINT)
+-- RETURNS rooms
+-- AS $$
+
+-- BEGIN
+--     SELECT * from rooms
+-- END;
+-- $$
+-- LANGUAGE PLPGSQL;
+CREATE OR REPLACE FUNCTION get_room_participants(_id BIGINT)
+RETURNS TABLE(
+    phone_nr VARCHAR(255),
+    email VARCHAR(255),
+    first VARCHAR(30),
+    last VARCHAR(30)
+)
+AS $$
+DECLARE
+    found_users membership.users;    
+BEGIN
+    SET search_path=membership;
+
+    return query    
+    SELECT users.phone_nr,users.email,users.first,users.last FROM users
+        INNER JOIN user_rooms ON user_rooms.user_id = users.id 
+        WHERE user_rooms.room_id = _id;
+
+
+END;
+$$
+
+
+LANGUAGE PLPGSQL;
 CREATE OR REPLACE FUNCTION get_user(_email varchar)
 RETURNS user_summary
 AS $$
@@ -494,6 +587,21 @@ BEGIN
 END;
 $$
 LANGUAGE PLPGSQL;
+CREATE OR REPLACE FUNCTION room_add_user(_user_id BIGINT, _room_id BIGINT)
+RETURNS VOID
+
+
+
+AS $$
+
+BEGIN
+    SET search_path=membership;
+
+    INSERT INTO user_rooms (user_id,room_id) VALUES (_user_id,_room_id);
+
+END;
+$$
+LANGUAGE PLPGSQL;
 CREATE OR REPLACE FUNCTION set_login_in_progress(_login_id VARCHAR,value BOOLEAN)
 RETURNS VOID
 as $$
@@ -580,4 +688,19 @@ ON DELETE CASCADE;
 ALTER TABLE notes
 ADD CONSTRAINT notes_users
 FOREIGN KEY (user_id) REFERENCES users(id)
+ON DELETE CASCADE;
+
+ALTER TABLE user_rooms
+ADD CONSTRAINT user_rooms_rooms
+FOREIGN KEY (room_id) REFERENCES rooms(id)
+ON DELETE CASCADE;
+
+ALTER TABLE user_rooms
+ADD CONSTRAINT user_rooms_users
+FOREIGN KEY (user_id) REFERENCES users(id)
+ON DELETE CASCADE;
+
+ALTER TABLE room_resource
+ADD CONSTRAINT room_resource_rooms
+FOREIGN KEY (room_id) REFERENCES rooms(id)
 ON DELETE CASCADE;

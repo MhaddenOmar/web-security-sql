@@ -1,0 +1,9 @@
+language: node-js
+node_js:
+  - "latest"
+
+services:
+  - postgres
+
+script:
+  npm run build && npm run install && npm run test
