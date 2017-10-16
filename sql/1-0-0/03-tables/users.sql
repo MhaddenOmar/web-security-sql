@@ -11,6 +11,7 @@ CREATE TABLE users(
  validation_token VARCHAR(36),
  last_login TIMESTAMPTZ,
  login_count INT DEFAULT 0 NOT NULL,
+ phone_nr VARCHAR(255),
  status_id INT 
 );
 

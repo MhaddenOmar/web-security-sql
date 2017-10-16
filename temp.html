@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button>CLICK</button>
+    <script>
+        const counter = {
+            cnt: 0,
+            inc : function(){
+                console.log(this);
+                this.cnt++;
+                console.log(this.cnt);
+            }
+        }
+
+        console.log(counter.cnt);
+
+        const button = document.getElementsByTagName('button')[0];
+        button.addEventListener('click', _ => counter.inc());
+    </script>
+</body>
+</html>

@@ -27,3 +27,18 @@ ALTER TABLE notes
 ADD CONSTRAINT notes_users
 FOREIGN KEY (user_id) REFERENCES users(id)
 ON DELETE CASCADE;
+
+ALTER TABLE user_rooms
+ADD CONSTRAINT user_rooms_rooms
+FOREIGN KEY (room_id) REFERENCES rooms(id)
+ON DELETE CASCADE;
+
+ALTER TABLE user_rooms
+ADD CONSTRAINT user_rooms_users
+FOREIGN KEY (user_id) REFERENCES users(id)
+ON DELETE CASCADE;
+
+ALTER TABLE room_resource
+ADD CONSTRAINT room_resource_rooms
+FOREIGN KEY (room_id) REFERENCES rooms(id)
+ON DELETE CASCADE;
