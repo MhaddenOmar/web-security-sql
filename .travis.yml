@@ -1,0 +1,12 @@
+language: node-js
+node_js:
+  - "latest"
+
+services:
+  - postgresql
+
+before_script:
+  - psql -c 'create database thingy_test;' -U postgres
+
+script:
+  - npm run build && npm run install-test && npm run test 
