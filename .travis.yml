@@ -2,14 +2,17 @@ language: node-js
 node_js:
   - "latest"
 
-addons:
-  postgres: "9.6"
+# addons:
+#   postgres: "9.6"
 
 before_script:
+  - apt-get install postgresql-9.6
   - psql -c 'create database thingy_test;' -U postgres
-  - npm install
+  - npm install  
+
 
 script:
+
   - psql --version
   - npm run build
   - npm run install-test 
