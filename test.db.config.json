@@ -1,5 +1,5 @@
 {
-    "user": "omar",
+    "user": "postgres",
     "host": "127.0.0.1",
     "database": "thingy_test",
     "password": "user",
