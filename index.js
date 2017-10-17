@@ -15,6 +15,7 @@ program
 .description('Build the SQL files our project')
 .action(function(){ 
   let target = process.env.NODE_ENV || `development`;  
+  console.log('');
   console.log(`Installing into`, target);   
   builder.install(function(err,result){    
       process.exit(0);
