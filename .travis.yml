@@ -10,6 +10,7 @@ before_script:
   - npm install
 
 script:
+  - psql --version
   - npm run build
   - npm run install-test 
   - npm run test 
