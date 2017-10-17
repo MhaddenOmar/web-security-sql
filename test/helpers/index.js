@@ -8,12 +8,15 @@ exports.Helpers = class{
 
 
     constructor(){
-        console.log("we heree");
-        client.connect();
+        console.log("we heree");        
         let builder = require('../../lib/builder');        
         this.sql = builder.readSql();
-        fs.writeFileSync('./build/1-0-0.sql',this.sql);
+        // fs.writeFileSync('./build/1-0-0.sql',this.sql);
         
+    }
+
+    connect(){
+        client.connect();
     }
     
     initDb(next){        
