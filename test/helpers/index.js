@@ -2,7 +2,7 @@ let fs = require('fs');
 let path = require('path');
 let {Client} = require('pg');
 
-let client = new Client({user: 'postgres',host: '127.0.0.1',database: 'thingy',password: 'postgres',port: 5432});
+let client = new Client({user: 'postgres',host: '127.0.0.1',database: 'thingy_test',password: 'postgres',port: 5432});
 
 exports.Helpers = class{
 
