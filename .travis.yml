@@ -1,0 +1,28 @@
+language: node-js
+node_js:
+  - "latest"
+
+# addons:
+#   postgres: "9.6"
+
+addons:
+  apt:
+    sources:
+    - precise-pgdg-9.5
+    packages:
+    - postgresql-9.5
+    - postgresql-contrib-9.5
+  postgresql: 9.5
+
+
+before_script:  
+  - psql -c 'create database thingy_test;' -U postgres
+  - npm install  
+
+
+script:
+
+  - psql --version
+  - npm run build
+  - npm run install-test 
+  - npm run test 
