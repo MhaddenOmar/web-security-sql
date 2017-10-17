@@ -16,11 +16,15 @@ exports.Helpers = class{
     }
 
     connect(){
-        client = {"user": "postgres","host": "127.0.0.1","database": "thingy","postgres": "postgres","port": 5432}
+        dbConfig = {"user": "postgres","host": "127.0.0.1","database": "thingy","postgres": "postgres","port": 5432};
+        
         
         if(process.env.NODE_ENV === 'test'){        
-        client = require("../../test.db.config.json");
+        dbConfig = require("../test.db.config.json");
         }   
+
+        client = new Client(dbConfig);
+
         client.connect();
     }
     
