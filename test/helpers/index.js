@@ -2,18 +2,21 @@ let fs = require('fs');
 let path = require('path');
 let {Client} = require('pg');
 
-let client = new Client({user: 'omar',host: '127.0.0.1',database: 'thingy',password: 'user',port: 5432});
+let client = new Client({user: 'postgres',host: '127.0.0.1',database: 'thingy_test',password: 'postgres',port: 5432});
 
 exports.Helpers = class{
 
 
     constructor(){
-        console.log("we heree");
-        client.connect();
+        console.log("we heree");        
         let builder = require('../../lib/builder');        
         this.sql = builder.readSql();
-        fs.writeFileSync('./build/1-0-0.sql',this.sql);
+        // fs.writeFileSync('./build/1-0-0.sql',this.sql);
         
+    }
+
+    connect(){
+        client.connect();
     }
     
     initDb(next){        

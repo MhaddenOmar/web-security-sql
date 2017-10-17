@@ -7,6 +7,7 @@ let helper = new Helpers();
 describe('SQL BUILDER',function(){
     
     before(function(done){        
+        helper.connect();
         helper.initDb(done);
     })         
     it('loads',function(){
