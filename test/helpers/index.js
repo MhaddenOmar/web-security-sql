@@ -2,7 +2,7 @@ let fs = require('fs');
 let path = require('path');
 let {Client} = require('pg');
 
-let client = new Client({user: 'postgres',host: '127.0.0.1',database: 'thingy_test',password: 'postgres',port: 5432});
+let client;
 
 exports.Helpers = class{
 
@@ -16,6 +16,15 @@ exports.Helpers = class{
     }
 
     connect(){
+        let dbConfig = {"user": "postgres","host": "127.0.0.1","database": "thingy","postgres": "postgres","port": 5432};
+        
+        
+        if(process.env.NODE_ENV === 'test'){        
+        dbConfig = require("../../test.db.config.json");
+        }   
+
+        client = new Client(dbConfig);
+
         client.connect();
     }
     
