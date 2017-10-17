@@ -2,9 +2,6 @@ language: node-js
 node_js:
   - "latest"
 
-services:
-  - postgresql
-
 addons:
   postgres: "9.6"
 
