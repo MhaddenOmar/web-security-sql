@@ -3,7 +3,10 @@ node_js:
   - "latest"
 
 services:
-  - postgresql: "9.6"
+  - postgresql
+
+addons:
+  postgres: "9.6"
 
 before_script:
   - psql -c 'create database thingy_test;' -U postgres
